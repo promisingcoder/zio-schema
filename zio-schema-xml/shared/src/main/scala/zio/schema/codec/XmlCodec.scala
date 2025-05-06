@@ -220,19 +220,28 @@ object XmlCodec {
 
       if (config.useAttributes) {
         field.schema match {
+          // Case 1: Primitive type
           case prim: Schema.Primitive[ptype] =>
-            isAttributeCandidate = true
             if (rawFieldValue != null) {
-              // Direct call with cast on value
-              attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
+              isAttributeCandidate = true
+              // Use encodePrimitive to get the formatted string content
+              val elem = encodePrimitive(prim.standardType.asInstanceOf[StandardType[Any]], rawFieldValue.asInstanceOf[Any], "temp") // Casts needed for encodePrimitive signature
+              attributeStringValue = Some(elem.text) // Extract text content
             }
+
+          // Case 2: Optional Primitive type
           case Schema.Optional(prim: Schema.Primitive[optype], _) =>
-            isAttributeCandidate = true
+            // rawFieldValue is Option[optype]
             rawFieldValue.asInstanceOf[Option[optype]].foreach { innerValue =>
-              // Direct call on standardType with innerValue (already optype)
-              attributeStringValue = Some(prim.standardType.format(innerValue))
+              isAttributeCandidate = true
+              // Use encodePrimitive for the inner value
+              val elem = encodePrimitive(prim.standardType.asInstanceOf[StandardType[Any]], innerValue.asInstanceOf[Any], "temp") // Casts needed
+              attributeStringValue = Some(elem.text) // Extract text content
             }
-          case _ => // Not a primitive or Option[Primitive], so not an attribute
+            // If rawFieldValue was None, attributeStringValue remains None, so no attribute is added.
+
+          case _ => // Not a primitive or Option[Primitive]
+            isAttributeCandidate = false // Explicitly set false
         }
       }
 
