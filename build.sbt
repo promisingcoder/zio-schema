@@ -60,7 +60,7 @@ addCommandAlias(
 addCommandAlias(
   "testNative",
   "zioSchemaMacrosNative/test; zioSchemaDerivationNative/test; zioSchemaJsonNative/test; zioSchemaOpticsNative/test;" +
-    "testsNative/test; zioSchemaNative/test; zioSchemaZioTestNative/test; zioSchemaProtobufNative/test; zioSchemaXmlNative/test"
+    "testsNative/test; zioSchemaNative/test; zioSchemaZioTestNative/test; zioSchemaProtobufNative/test"
 )
 
 addCommandAlias(
@@ -111,7 +111,6 @@ lazy val root = project
     zioSchemaMsgPack,
     zioSchemaXmlJVM,
     zioSchemaXmlJS,
-    zioSchemaXmlNative,
     docs
   )
 
@@ -525,5 +524,3 @@ lazy val zioSchemaXmlJS = zioSchemaXml.js
   .settings(scalaJSUseMainModuleInitializer := true)
 
 lazy val zioSchemaXmlJVM = zioSchemaXml.jvm
-
-lazy val zioSchemaXmlNative = zioSchemaXml.native
