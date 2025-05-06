@@ -7,6 +7,9 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 addCompilerPlugin("com.lihaoyi" %% "unroll-plugin" % "0.1.12")
 
+// Define scala-xml version
+val scalaXmlVersion = "2.3.0"
+
 inThisBuild(
   List(
     name := "zio-schema",
@@ -51,19 +54,19 @@ addCommandAlias(
   "testJVM",
   "testsJVM/test; zioSchemaMacrosJVM/test; zioSchemaJVM/test; zioSchemaDerivationJVM/test;" +
     "zioSchemaOpticsJVM/test; zioSchemaJsonJVM/test; zioSchemaProtobufJVM/test; zioSchemaZioTestJVM/test;" +
-    "zioSchemaAvro/test; zioSchemaThrift/test; zioSchemaBson/test; zioSchemaMsgPack/test"
+    "zioSchemaAvro/test; zioSchemaThrift/test; zioSchemaBson/test; zioSchemaMsgPack/test; zioSchemaXmlJVM/test"
 )
 
 addCommandAlias(
   "testNative",
   "zioSchemaMacrosNative/test; zioSchemaDerivationNative/test; zioSchemaJsonNative/test; zioSchemaOpticsNative/test;" +
-    "testsNative/test; zioSchemaNative/test; zioSchemaZioTestNative/test; zioSchemaProtobufNative/test;"
+    "testsNative/test; zioSchemaNative/test; zioSchemaZioTestNative/test; zioSchemaProtobufNative/test; zioSchemaXmlNative/test"
 )
 
 addCommandAlias(
   "testJS",
   "zioSchemaMacrosJS/test; zioSchemaDerivationJS/test; zioSchemaJsonJS/test; zioSchemaOpticsJS/test; testsJS/test; zioSchemaJS/test; " +
-    "zioSchemaZioTestJS/test; zioSchemaProtobufJS/test;"
+    "zioSchemaZioTestJS/test; zioSchemaProtobufJS/test; zioSchemaXmlJS/test"
 )
 
 lazy val root = project
@@ -106,6 +109,9 @@ lazy val root = project
     zioSchemaAvro,
     zioSchemaBson,
     zioSchemaMsgPack,
+    zioSchemaXmlJVM,
+    zioSchemaXmlJS,
+    zioSchemaXmlNative,
     docs
   )
 
@@ -488,3 +494,35 @@ lazy val testDeps = Seq(
     "dev.zio" %%% "zio-test-sbt" % zioVersion % Test
   )
 )
+
+// Add zio-schema-xml module
+lazy val zioSchemaXml = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .in(file("zio-schema-xml"))
+  .dependsOn(zioSchema, zioSchema % "test->test", zioSchemaDerivation % "test->test")
+  .settings(stdSettings("zio-schema-xml"))
+  .settings(crossProjectSettings)
+  .settings(buildInfoSettings("zio.schema"))
+  .settings(
+    libraryDependencies ++= Seq(
+      "dev.zio"                %%% "zio"       % zioVersion,
+      "org.scala-lang.modules" %%% "scala-xml" % scalaXmlVersion
+    )
+  )
+  .jsSettings(
+    libraryDependencies ++= Seq(
+      "io.github.cquiroz" %%% "scala-java-time"      % scalaJavaTimeVersion,
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % scalaJavaTimeVersion
+    )
+  )
+  .nativeSettings(
+    libraryDependencies ++= Seq(
+      "io.github.cquiroz" %%% "scala-java-time" % scalaJavaTimeVersion
+    )
+  )
+
+lazy val zioSchemaXmlJS = zioSchemaXml.js
+  .settings(scalaJSUseMainModuleInitializer := true)
+
+lazy val zioSchemaXmlJVM = zioSchemaXml.jvm
+
+lazy val zioSchemaXmlNative = zioSchemaXml.native
