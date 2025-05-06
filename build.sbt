@@ -504,8 +504,7 @@ lazy val zioSchemaXml = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     libraryDependencies ++= Seq(
       "dev.zio"                %%% "zio"       % zioVersion,
-      "org.scala-lang.modules" %%% "scala-xml" % scalaXmlVersion,
-      "org.gnieh"              %%% "fs2-data-xml-scala" % "1.11.3"
+      "org.scala-lang.modules" %%% "scala-xml" % scalaXmlVersion
     )
   )
   .jsSettings(

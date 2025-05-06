@@ -29,13 +29,7 @@ import zio.schema._
 import zio.stream.ZPipeline
 import zio.{ Cause, Chunk, ZIO }
 
-// fs2-data imports (reverted to package objects)
-import _root_.fs2.Stream
-import _root_.fs2.data.xml // To access members like events()
-import _root_.fs2.data.xml.scala // To access members like eventsToDom
-import _root_.fs2.data.text // To access members like string.chars
-import _root_.cats.effect.IO // fs2-data pipes often require an effect type like IO
-import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
+// Removed fs2-data imports
 
 object XmlCodec {
 
@@ -65,44 +59,21 @@ object XmlCodec {
 
   def xmlCodec[A](config: Configuration)(implicit schema: Schema[A]): BinaryCodec[A] =
     new BinaryCodec[A] {
-      // Helper function - TEMPORARILY DISABLED FOR TESTING
-      private def parseXmlStringToScalaXml(xmlString: String): Either[Throwable, scala.xml.Node] =
-         Left(new UnsupportedOperationException(s"XML parsing disabled for testing: $xmlString"))
-         /* // Original fs2-data code:
-         try {
-           Stream.emit(xmlString)
-             // Use fully qualified names directly
-             .through(_root_.fs2.data.text.string.chars[IO])
-             .through(_root_.fs2.data.xml.events[IO]())
-             .through(_root_.fs2.data.xml.scala.eventsToDom[IO]) // Assuming eventsToDom is in package object
-             .compile
-             .toList                              // IO[List[scala.xml.Node]]
-             .map(_.headOption)                   // IO[Option[scala.xml.Node]]
-             .unsafeRunSync()                     // Option[scala.xml.Node] - This blocks
-             .toRight(new RuntimeException("XML parsing failed to produce a root node or XML was empty."))
-         } catch {
-           case NonFatal(e) => Left(e)
-         }
-         */
+      // Removed parseXmlStringToScalaXml helper function
         
       override def decode(whole: Chunk[Byte]): Either[DecodeError, A] =
         try {
           val xmlString = new String(whole.toArray, StandardCharsets.UTF_8)
-          // val xml       = XML.loadString(xmlString) // Old, problematic for Scala.js
-          // decodeXml(schema, xml)
-
-          parseXmlStringToScalaXml(xmlString) match {
-            case Right(xml) => decodeXml(schema, xml)
-            case Left(err)  => Left(DecodeError.ReadError(Cause.fail(err), Option(err.getMessage).getOrElse("XML parsing failed via fs2-data")))
-          }
+          // Reverted to XML.loadString
+          val xml       = XML.loadString(xmlString)
+          decodeXml(schema, xml)
         } catch {
-          case NonFatal(e) => // Catch errors from xmlString conversion or other unexpected ones
+          case NonFatal(e) => // Catch errors from xmlString conversion or parsing
             Left(DecodeError.ReadError(Cause.fail(e), e.getMessage))
         }
 
       override def streamDecoder: ZPipeline[Any, DecodeError, Byte, A] =
-        // FIXME: This still uses XML.loadString and needs to be updated to use fs2-data pipes with ZIO streams.
-        // This will require careful integration of fs2.Pipe with ZPipeline, possibly via zio-interop-cats.
+        // Reverted to XML.loadString - still problematic for Scala.js
         ZPipeline.rechunk(Int.MaxValue).mapChunksZIO { (allBytesCollected: Chunk[Byte]) =>
           try {
             val xmlString = new String(allBytesCollected.toArray, StandardCharsets.UTF_8)
@@ -185,7 +156,7 @@ object XmlCodec {
         encodeXml(schema0().asInstanceOf[Schema[Any]], value, elementName, config)
 
       case record: Schema.Record[_] =>
-        encodeRecord(record, value.asInstanceOf[AnyRef], elementName, config)
+        encodeRecord(record.asInstanceOf[Schema.Record[A]], value.asInstanceOf[A], elementName, config)
 
       case enum: Schema.Enum[_] =>
         encodeEnum(enum, value, elementName)
@@ -228,8 +199,8 @@ object XmlCodec {
         )
     }
 
-  private def encodeRecord[A <: AnyRef](
-    record: Schema.Record[_],
+  private def encodeRecord[A]( // Changed A bound back
+    record: Schema.Record[A],
     value: A,
     elementName: String,
     config: Configuration
@@ -240,9 +211,9 @@ object XmlCodec {
     var attributes: MetaData = Null
     val childElements        = scala.collection.mutable.ListBuffer[Node]()
 
-    fields.foreach { (field: Field[A @unchecked, _]) => // Added @unchecked
-      // value is of type A. field is Field[A, SpecificFieldType]. field.get expects A.
-      val rawFieldValue = field.get(value) // Get field value using schema. Removed : Any annotation
+    // Use fully qualified Field type and @unchecked
+    fields.foreach { (field: zio.schema.Schema.Field[A @unchecked, _]) => 
+      val rawFieldValue = field.get(value) // Corrected field access
 
       var isAttributeCandidate = false
       var attributeStringValue: Option[String] = None
@@ -252,14 +223,13 @@ object XmlCodec {
           case prim: Schema.Primitive[ptype] =>
             isAttributeCandidate = true
             if (rawFieldValue != null) {
-              // Direct call with cast
+              // Direct call with cast on value
               attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
             }
           case Schema.Optional(prim: Schema.Primitive[optype], _) =>
             isAttributeCandidate = true
-            // rawFieldValue is Option[optype]
-            rawFieldValue.asInstanceOf[Option[optype]].foreach { innerValue => // innerValue is optype
-              // Direct call, no extra cast needed for innerValue
+            rawFieldValue.asInstanceOf[Option[optype]].foreach { innerValue =>
+              // Direct call on standardType with innerValue (already optype)
               attributeStringValue = Some(prim.standardType.format(innerValue))
             }
           case _ => // Not a primitive or Option[Primitive], so not an attribute
@@ -269,10 +239,8 @@ object XmlCodec {
       if (isAttributeCandidate && attributeStringValue.isDefined) {
         attributes = new scala.xml.UnprefixedAttribute(field.name, Text(attributeStringValue.get), attributes)
       } else {
-        // Not an attribute, or is None for optional primitive attribute candidates, or Some(null) which format might handle.
+        // Not an attribute, or is None for optional primitive attribute candidates.
         // Encode as a child element. encodeXml will handle Option wrappers correctly for elements.
-        // The cast to Schema[Any] and .asInstanceOf[Any] is because encodeXml is generic,
-        // but we know field.schema and rawFieldValue are of compatible types.
         childElements += encodeXml(field.schema.asInstanceOf[Schema[Any]], rawFieldValue.asInstanceOf[Any], field.name, config)
       }
     }
