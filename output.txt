@@ -3,10 +3,6 @@
 [info] loading project definition from /workspaces/zio-schema/project/project
 [info] loading settings for project zio-schema-build from plugins.sbt ...
 [info] loading project definition from /workspaces/zio-schema/project
-[info] compiling 1 Scala source to /workspaces/zio-schema/project/target/scala-2.12/sbt-1.0/classes ...
-[info] Non-compiled module 'compiler-bridge_2.12' for Scala 2.12.18. Compiling...
-[info]   Compilation completed in 12.448s.
-[info] done compiling
 [info] loading settings for project root from build.sbt ...
 [info] resolving key references (44937 settings) ...
 [info] set current project to zio-schema (in build file:/workspaces/zio-schema/)
@@ -143,111 +139,403 @@
 [warn] either append it to `Global / excludeLintKeys` or call .withRank(KeyRanks.Invisible) on the key
 [warn] 
 [warn] 	Note: Unresolved dependencies path:
-[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-macros/js/target/scala-2.13/classes ...
-[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-macros/native/target/scala-2.13/classes ...
-[info] done compiling
-[info] done compiling
-[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-macros/jvm/target/scala-2.13/classes ...
-[info] done compiling
-[info] compiling 58 Scala sources to /workspaces/zio-schema/zio-schema/native/target/scala-2.13/classes ...
-[info] compiling 58 Scala sources to /workspaces/zio-schema/zio-schema/js/target/scala-2.13/classes ...
-[info] done compiling
-[info] done compiling
-[info] compiling 58 Scala sources to /workspaces/zio-schema/zio-schema/jvm/target/scala-2.13/classes ...
-[info] Linking (multithreadingEnabled=true, disable if not used) (10031 ms)
-[info] Discovered 3927 classes and 25928 methods after classloading
-[info] Checking intermediate code (quick) (597 ms)
-[info] Discovered 2810 classes and 15966 methods after optimization
-[info] Optimizing (debug mode) (20429 ms)
-[info] done compiling
-[info] Fast optimizing /workspaces/zio-schema/zio-schema-macros/js/target/scala-2.13/zio-schema-macros-test-fastopt
-[info] Produced 105 LLVM IR files
-[info] Generating intermediate code (37641 ms)
-[info] Compiling to native code (26989 ms)
-[info] Linking with [pthread, dl]
-[info] Linking native code (immix gc, none lto) (1262 ms)
-[info] Postprocessing (0 ms)
-[info] Total (74837 ms)
-[info] Starting process '/workspaces/zio-schema/zio-schema-macros/native/target/scala-2.13/zio-schema-macros-test' on port '34941'.
-[info] compiling 7 Scala sources to /workspaces/zio-schema/zio-schema-derivation/native/target/scala-2.13/classes ...
-[info] compiling 5 Scala sources to /workspaces/zio-schema/zio-schema/native/target/scala-2.13/test-classes ...
-[info] done compiling
-[info] compiling 7 Scala sources to /workspaces/zio-schema/zio-schema-derivation/js/target/scala-2.13/classes ...
-[info] done compiling
-[info] compiling 5 Scala sources to /workspaces/zio-schema/zio-schema/js/target/scala-2.13/test-classes ...
-[info] done compiling
+[info] Build skipped: No changes detected in build configuration and class path contents since last build.
+[info] Starting process '/workspaces/zio-schema/zio-schema-macros/native/target/scala-2.13/zio-schema-macros-test' on port '40267'.
+[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-xml/jvm/target/scala-2.13/classes ...
 [info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-xml/js/target/scala-2.13/classes ...
 [error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:35:28: object scala is not a member of package fs2.data.xml
 [error] did you mean scalaXml?
 [error] import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
 [error]                            ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:73:27: object string is not a member of package fs2.data.text
-[error]             .through(text.string.chars[IO])      // Stream[IO, Char]
-[error]                           ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:75:22: not found: value fs2EventsToDom
-[error]             .through(fs2EventsToDom)             // Pipe[IO, XmlEvent, scala.xml.Node]
-[error]                      ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:241:62: type Parent is not a member of zio.schema.Schema.Field[_$6, _]
-[error]       val rawFieldValue = field.get(value.asInstanceOf[field.Parent]) // Get field value using schema
-[error]                                                              ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:253:93: value format is not a member of zio.schema.StandardType[Any]
-[error]               attributeStringValue = Some(prim.standardType.asInstanceOf[StandardType[Any]].format(rawFieldValue))
-[error]                                                                                             ^
-[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:35:36: Unused import
-[warn] import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
-[warn]                                    ^
-[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:38:44: Unused import
-[warn] import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
-[warn]                                            ^
-[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:279:29: parameter enumSchema in method encodeEnum is never used
-[warn]   private def encodeEnum[A](enumSchema: Schema.Enum[_], value: A, elementName: String): Elem = {
-[warn]                             ^
-[warn] three warnings found
-[error] 5 errors found
-[warn] multiple main classes detected: run 'show discoveredMainClasses' to see the list
-[info] compiling 7 Scala sources to /workspaces/zio-schema/zio-schema-derivation/jvm/target/scala-2.13/classes ...
-[info] done compiling
-[info] compiling 5 Scala sources to /workspaces/zio-schema/zio-schema/jvm/target/scala-2.13/test-classes ...
-[info] done compiling
-[info] done compiling
-[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-xml/jvm/target/scala-2.13/classes ...
 [error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:35:28: object scala is not a member of package fs2.data.xml
 [error] did you mean scalaXml?
 [error] import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
 [error]                            ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:73:27: object string is not a member of package fs2.data.text
-[error]             .through(text.string.chars[IO])      // Stream[IO, Char]
-[error]                           ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:73:43: object string is not a member of package fs2.data.text
+[error]             .through(_root_.fs2.data.text.string.chars[IO])      // Stream[IO, Char]
+[error]                                           ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:74:42: wrong number of type parameters for overloaded method events with alternatives:
+[error]   [F[_], T](includeComments: Boolean)(implicit F: fs2.RaiseThrowable[F], T: fs2.data.text.CharLikeChunks[F,T]): fs2.Pipe[F,T,fs2.data.xml.XmlEvent] <and>
+[error]   [F[_], T](implicit F: fs2.RaiseThrowable[F], T: fs2.data.text.CharLikeChunks[F,T]): fs2.Pipe[F,T,fs2.data.xml.XmlEvent]
+[error]             .through(_root_.fs2.data.xml.events[IO]())           // Pipe[IO, Char, XmlEvent]
+[error]                                          ^
 [error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:75:22: not found: value fs2EventsToDom
-[error]             .through(fs2EventsToDom)             // Pipe[IO, XmlEvent, scala.xml.Node]
+[error]             .through(fs2EventsToDom[IO])                         // Pipe[IO, XmlEvent, scala.xml.Node]
 [error]                      ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:241:62: type Parent is not a member of zio.schema.Schema.Field[_$6, _]
-[error]       val rawFieldValue = field.get(value.asInstanceOf[field.Parent]) // Get field value using schema
-[error]                                                              ^
-[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:253:93: value format is not a member of zio.schema.StandardType[Any]
-[error]               attributeStringValue = Some(prim.standardType.asInstanceOf[StandardType[Any]].format(rawFieldValue))
-[error]                                                                                             ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:73:43: object string is not a member of package fs2.data.text
+[error]             .through(_root_.fs2.data.text.string.chars[IO])      // Stream[IO, Char]
+[error]                                           ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:74:42: wrong number of type parameters for overloaded method events with alternatives:
+[error]   [F[_], T](includeComments: Boolean)(implicit F: fs2.RaiseThrowable[F], T: fs2.data.text.CharLikeChunks[F,T]): fs2.Pipe[F,T,fs2.data.xml.XmlEvent] <and>
+[error]   [F[_], T](implicit F: fs2.RaiseThrowable[F], T: fs2.data.text.CharLikeChunks[F,T]): fs2.Pipe[F,T,fs2.data.xml.XmlEvent]
+[error]             .through(_root_.fs2.data.xml.events[IO]())           // Pipe[IO, Char, XmlEvent]
+[error]                                          ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:75:22: not found: value fs2EventsToDom
+[error]             .through(fs2EventsToDom[IO])                         // Pipe[IO, XmlEvent, scala.xml.Node]
+[error]                      ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:241:37: type mismatch;
+[error]  found   : value.type (with underlying type A)
+[error]  required: _$6
+[error]       val rawFieldValue = field.get(value) // Get field value using schema; Corrected: no .asInstanceOf[field.Parent]
+[error]                                     ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:241:37: type mismatch;
+[error]  found   : value.type (with underlying type A)
+[error]  required: _$6
+[error]       val rawFieldValue = field.get(value) // Get field value using schema; Corrected: no .asInstanceOf[field.Parent]
+[error]                                     ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:253:61: value format is not a member of zio.schema.StandardType[ptype]
+[error]               attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
+[error]                                                             ^
+[error] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:253:61: value format is not a member of zio.schema.StandardType[ptype]
+[error]               attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
+[error]                                                             ^
 [warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:35:36: Unused import
 [warn] import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
 [warn]                                    ^
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:36:24: Unused import
+[warn] import _root_.fs2.data.text // To access members like string.chars
+[warn]                        ^
 [warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:38:44: Unused import
 [warn] import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
 [warn]                                            ^
-[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:279:29: parameter enumSchema in method encodeEnum is never used
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:35:36: Unused import
+[warn] import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
+[warn]                                    ^
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:36:24: Unused import
+[warn] import _root_.fs2.data.text // To access members like string.chars
+[warn]                        ^
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:38:44: Unused import
+[warn] import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
+[warn]                                            ^
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:281:29: parameter enumSchema in method encodeEnum is never used
 [warn]   private def encodeEnum[A](enumSchema: Schema.Enum[_], value: A, elementName: String): Elem = {
 [warn]                             ^
-[warn] three warnings found
-[error] 5 errors found
-[info] Fast optimizing /workspaces/zio-schema/zio-schema/js/target/scala-2.13/zio-schema-test-fastopt
-[info] Linking (multithreadingEnabled=true, disable if not used) (20554 ms)
+[warn] /workspaces/zio-schema/zio-schema-xml/shared/src/main/scala/zio/schema/codec/XmlCodec.scala:281:29: parameter enumSchema in method encodeEnum is never used
+[warn]   private def encodeEnum[A](enumSchema: Schema.Enum[_], value: A, elementName: String): Elem = {
+[warn]                             ^
+[warn] four warnings found
+[warn] four warnings found
+[error] 6 errors found
+[error] 6 errors found
+[warn] multiple main classes detected: run 'show discoveredMainClasses' to see the list
+[32m+[0m Compiling Regex
+  [32m+[0m compile oneOf singleton
+  [32m+[0m compile literal
+  [32m+[0m compile oneOf several elements
+  [32m+[0m compile between
+  [32m+[0m compile +
+  [32m+[0m compile repeat n
+  [32m+[0m compile *
+  [32m+[0m compile ?
+  [32m+[0m compile repeat n to m
+  [32m+[0m compile letter
+  [32m+[0m compile digit
+  [32m+[0m compile repeat n+
+  [32m+[0m compile alternative
+  [32m+[0m compile sequence
+[32m+[0m TimeSpec
+  [32m+[0m Invalid formats
+  [32m+[0m Valid formats
+[32m+[0m ValidationSpec
+  [32m+[0m Optional
+  [32m+[0m Greater than
+  [32m+[0m Contramap
+  [32m+[0m Either
+  [32m+[0m Less than
+  [32m+[0m Equal to
+  [32m+[0m MaxLength
+  [32m+[0m Regex email Validation
+    [32m+[0m should reject an invalid email
+    [32m+[0m should accept a correct email
+  [32m+[0m MinLength
+  [32m+[0m Regex digit or letter Validation
+  [32m+[0m Regex identifier Validation
+  [32m+[0m Regex IPv4 Validation
+    [32m+[0m should accept a valid IPv4 address
+    [32m+[0m should reject an invalid IPv4 address
+  [32m+[0m Regex IPv6 Validation
+    [32m+[0m should accept a valid IPv6 address
+    [32m+[0m should reject an invalid IPv6 address
+  [32m+[0m Regex uuid Validations
+    [32m+[0m invalid UUID
+    [32m+[0m valid UUID
+  [32m+[0m Time Validation mm
+  [32m+[0m Time Validation H
+  [32m+[0m Time Validation HH
+  [32m+[0m Time Validation m
+  [32m+[0m Time Validation HHmm
+  [32m+[0m Time Validation HH:mm
+  [32m+[0m Time Validation H:m:s
+  [32m+[0m Time Validation HH:mm:ss
+  [32m+[0m Time Validation HH:mm:ss a
+  [32m+[0m Time Validation H:m:s a
+  [32m+[0m Time Validation hh:mm:ss a
+  [32m+[0m Time Validation hh:mm:ss
+  [32m+[0m Time Validation h:m:s
+  [32m+[0m Time Validation HH:mm:ss S
+  [32m+[0m Time Validation h:m:s a
+  [32m+[0m Time Validation HH:mm:ss SSSSSSSSS a
+  [32m+[0m Time Validation HH:mm:ss.SSS
+  [32m+[0m Generic record should validate object with missing keys
+  [32m+[0m Regex duration Validation
+[32m+[0m PhoneNumberValidationSpec
+  [32m+[0m Regex phone number validation for Afghanistan
+  [32m+[0m Regex phone number validation for Ascension Island
+  [32m+[0m Regex phone number validation for Andorra
+  [32m+[0m Regex phone number validation for United Arab Emirates
+  [32m+[0m Regex phone number validation for Antigua and Barbuda
+  [32m+[0m Regex phone number validation for Anguilla
+  [32m+[0m Regex phone number validation for Albania
+  [32m+[0m Regex phone number validation for Armenia
+  [32m+[0m Regex phone number validation for Netherlands Antilles
+  [32m+[0m Regex phone number validation for Angola
+  [32m+[0m Regex phone number validation for Austria
+  [32m+[0m Regex phone number validation for American Samoa
+  [32m+[0m Regex phone number validation for Argentina
+  [32m+[0m Regex phone number validation for Antarctica
+  [32m+[0m Regex phone number validation for Aruba
+  [32m+[0m Regex phone number validation for Australia
+  [32m+[0m Regex phone number validation for Bosnia and Herzegovina
+  [32m+[0m Regex phone number validation for Aland Islands
+  [32m+[0m Regex phone number validation for Azerbaijan
+  [32m+[0m Regex phone number validation for Barbados
+  [32m+[0m Regex phone number validation for Bangladesh
+  [32m+[0m Regex phone number validation for Belgium
+  [32m+[0m Regex phone number validation for Bulgaria
+  [32m+[0m Regex phone number validation for Burkina Faso
+  [32m+[0m Regex phone number validation for Bahrain
+  [32m+[0m Regex phone number validation for Burundi
+  [32m+[0m Regex phone number validation for Benin
+  [32m+[0m Regex phone number validation for Saint-Barthelemy
+  [32m+[0m Regex phone number validation for Bermuda
+  [32m+[0m Regex phone number validation for Brunei Darussalam
+  [32m+[0m Regex phone number validation for Caribbean Netherlands
+  [32m+[0m Regex phone number validation for Bolivia
+  [32m+[0m Regex phone number validation for Brazil
+  [32m+[0m Regex phone number validation for Bahamas
+  [32m+[0m Regex phone number validation for Bouvet Island
+  [32m+[0m Regex phone number validation for Bhutan
+  [32m+[0m Regex phone number validation for Botswana
+  [32m+[0m Regex phone number validation for Belize
+  [32m+[0m Regex phone number validation for Congo, (Kinshasa)
+  [32m+[0m Regex phone number validation for Canada
+  [32m+[0m Regex phone number validation for Belarus
+  [32m+[0m Regex phone number validation for Central African Republic
+  [32m+[0m Regex phone number validation for Cocos (Keeling) Islands
+  [32m+[0m Regex phone number validation for Congo (Brazzaville)
+  [32m+[0m Regex phone number validation for Cook Islands
+  [32m+[0m Regex phone number validation for Switzerland
+  [32m+[0m Regex phone number validation for Côte d'Ivoire
+  [32m+[0m Regex phone number validation for Chile
+  [32m+[0m Regex phone number validation for China
+  [32m+[0m Regex phone number validation for Colombia
+  [32m+[0m Regex phone number validation for Cameroon
+  [32m+[0m Regex phone number validation for Costa Rica
+  [32m+[0m Regex phone number validation for Cuba
+  [32m+[0m Regex phone number validation for Curacao
+  [32m+[0m Regex phone number validation for Cape Verde
+  [32m+[0m Regex phone number validation for Cyprus
+  [32m+[0m Regex phone number validation for Christmas Island
+  [32m+[0m Regex phone number validation for Djibouti
+  [32m+[0m Regex phone number validation for Germany
+  [32m+[0m Regex phone number validation for Czech Republic
+  [32m+[0m Regex phone number validation for Dominica
+  [32m+[0m Regex phone number validation for Denmark
+  [32m+[0m Regex phone number validation for Ecuador
+  [32m+[0m Regex phone number validation for Dominican Republic
+  [32m+[0m Regex phone number validation for Estonia
+  [32m+[0m Regex phone number validation for Algeria
+  [32m+[0m Regex phone number validation for Western Sahara
+  [32m+[0m Regex phone number validation for Eritrea
+  [32m+[0m Regex phone number validation for Ethiopia
+  [32m+[0m Regex phone number validation for Egypt
+  [32m+[0m Regex phone number validation for Finland
+  [32m+[0m Regex phone number validation for Fiji
+  [32m+[0m Regex phone number validation for Spain
+  [32m+[0m Regex phone number validation for Micronesia, Federated States of
+  [32m+[0m Regex phone number validation for Falkland Islands (Malvinas)
+  [32m+[0m Regex phone number validation for Faroe Islands
+  [32m+[0m Regex phone number validation for Gabon
+  [32m+[0m Regex phone number validation for France
+  [32m+[0m Regex phone number validation for Grenada
+  [32m+[0m Regex phone number validation for United Kingdom
+  [32m+[0m Regex phone number validation for Georgia
+  [32m+[0m Regex phone number validation for Guernsey
+  [32m+[0m Regex phone number validation for French Guiana
+  [32m+[0m Regex phone number validation for Ghana
+  [32m+[0m Regex phone number validation for Gibraltar
+  [32m+[0m Regex phone number validation for Gambia
+  [32m+[0m Regex phone number validation for Guadeloupe
+  [32m+[0m Regex phone number validation for Greenland
+  [32m+[0m Regex phone number validation for Guinea
+  [32m+[0m Regex phone number validation for Equatorial Guinea
+  [32m+[0m Regex phone number validation for Greece
+  [32m+[0m Regex phone number validation for South Sandwich Islands
+  [32m+[0m Regex phone number validation for Guatemala
+  [32m+[0m Regex phone number validation for Guinea-Bissau
+  [32m+[0m Regex phone number validation for Guam
+  [32m+[0m Regex phone number validation for Guyana
+  [32m+[0m Regex phone number validation for Hong Kong
+  [32m+[0m Regex phone number validation for Heard and Mcdonald Islands
+  [32m+[0m Regex phone number validation for Honduras
+  [32m+[0m Regex phone number validation for Haiti
+  [32m+[0m Regex phone number validation for Indonesia
+  [32m+[0m Regex phone number validation for Israel
+  [32m+[0m Regex phone number validation for Ireland
+  [32m+[0m Regex phone number validation for Croatia
+  [32m+[0m Regex phone number validation for Hungary
+  [32m+[0m Regex phone number validation for India
+  [32m+[0m Regex phone number validation for Iraq
+  [32m+[0m Regex phone number validation for British Indian Ocean Territory
+  [32m+[0m Regex phone number validation for Isle of Man
+  [32m+[0m Regex phone number validation for Iran
+  [32m+[0m Regex phone number validation for Italy
+  [32m+[0m Regex phone number validation for Iceland
+  [32m+[0m Regex phone number validation for Jamaica
+  [32m+[0m Regex phone number validation for Jersey
+  [32m+[0m Regex phone number validation for Jordan
+  [32m+[0m Regex phone number validation for Japan
+  [32m+[0m Regex phone number validation for Kenya
+  [32m+[0m Regex phone number validation for Kiribati
+  [32m+[0m Regex phone number validation for Kyrgyzstan
+  [32m+[0m Regex phone number validation for Cambodia
+  [32m+[0m Regex phone number validation for Comoros
+  [32m+[0m Regex phone number validation for Saint Kitts and Nevis
+  [32m+[0m Regex phone number validation for North Korea
+  [32m+[0m Regex phone number validation for South Korea
+  [32m+[0m Regex phone number validation for Kuwait
+  [32m+[0m Regex phone number validation for Cayman Islands
+  [32m+[0m Regex phone number validation for Kazakhstan
+  [32m+[0m Regex phone number validation for Lao PDR
+  [32m+[0m Regex phone number validation for Lebanon
+  [32m+[0m Regex phone number validation for Saint Lucia
+  [32m+[0m Regex phone number validation for Liechtenstein
+  [32m+[0m Regex phone number validation for Sri Lanka
+  [32m+[0m Regex phone number validation for Lesotho
+  [32m+[0m Regex phone number validation for Liberia
+  [32m+[0m Regex phone number validation for Lithuania
+  [32m+[0m Regex phone number validation for Luxembourg
+  [32m+[0m Regex phone number validation for Latvia
+  [32m+[0m Regex phone number validation for Libya
+  [32m+[0m Regex phone number validation for Monaco
+  [32m+[0m Regex phone number validation for Montenegro
+  [32m+[0m Regex phone number validation for Morocco
+  [32m+[0m Regex phone number validation for Moldova
+  [32m+[0m Regex phone number validation for Saint-Martin (French)
+  [32m+[0m Regex phone number validation for Macedonia
+  [32m+[0m Regex phone number validation for Madagascar
+  [32m+[0m Regex phone number validation for Mali
+  [32m+[0m Regex phone number validation for Marshall Islands
+  [32m+[0m Regex phone number validation for Myanmar
+  [32m+[0m Regex phone number validation for Mongolia
+  [32m+[0m Regex phone number validation for Macao
+  [32m+[0m Regex phone number validation for Northern Mariana Islands
+  [32m+[0m Regex phone number validation for Mauritania
+  [32m+[0m Regex phone number validation for Montserrat
+  [32m+[0m Regex phone number validation for Martinique
+  [32m+[0m Regex phone number validation for Malta
+  [32m+[0m Regex phone number validation for Mauritius
+  [32m+[0m Regex phone number validation for Maldives
+  [32m+[0m Regex phone number validation for Mexico
+  [32m+[0m Regex phone number validation for Mozambique
+  [32m+[0m Regex phone number validation for Malaysia
+  [32m+[0m Regex phone number validation for Malawi
+  [32m+[0m Regex phone number validation for New Caledonia
+  [32m+[0m Regex phone number validation for Namibia
+  [32m+[0m Regex phone number validation for Norfolk Island
+  [32m+[0m Regex phone number validation for Niger
+  [32m+[0m Regex phone number validation for Nigeria
+  [32m+[0m Regex phone number validation for Nicaragua
+  [32m+[0m Regex phone number validation for Norway
+  [32m+[0m Regex phone number validation for Netherlands
+  [32m+[0m Regex phone number validation for Nauru
+  [32m+[0m Regex phone number validation for Nepal
+  [32m+[0m Regex phone number validation for Oman
+  [32m+[0m Regex phone number validation for New Zealand
+  [32m+[0m Regex phone number validation for Niue
+  [32m+[0m Regex phone number validation for Panama
+  [32m+[0m Regex phone number validation for Peru
+  [32m+[0m Regex phone number validation for Papua New Guinea
+  [32m+[0m Regex phone number validation for French Polynesia
+  [32m+[0m Regex phone number validation for Philippines
+  [32m+[0m Regex phone number validation for Poland
+  [32m+[0m Regex phone number validation for Pakistan
+  [32m+[0m Regex phone number validation for Saint Pierre and Miquelon
+  [32m+[0m Regex phone number validation for Puerto Rico
+  [32m+[0m Regex phone number validation for Portugal
+  [32m+[0m Regex phone number validation for Pitcairn Islands
+  [32m+[0m Regex phone number validation for Palau
+  [32m+[0m Regex phone number validation for Palestinian Territory
+  [32m+[0m Regex phone number validation for Paraguay
+  [32m+[0m Regex phone number validation for Qatar
+  [32m+[0m Regex phone number validation for Réunion
+  [32m+[0m Regex phone number validation for Russian Federation
+  [32m+[0m Regex phone number validation for Rwanda
+  [32m+[0m Regex phone number validation for Romania
+  [32m+[0m Regex phone number validation for Serbia
+  [32m+[0m Regex phone number validation for Saudi Arabia
+  [32m+[0m Regex phone number validation for Seychelles
+  [32m+[0m Regex phone number validation for Solomon Islands
+  [32m+[0m Regex phone number validation for Sudan
+  [32m+[0m Regex phone number validation for Singapore
+  [32m+[0m Regex phone number validation for Sweden
+  [32m+[0m Regex phone number validation for Svalbard and Jan Mayen Islands
+  [32m+[0m Regex phone number validation for Slovenia
+  [32m+[0m Regex phone number validation for Saint Helena
+  [32m+[0m Regex phone number validation for Slovakia
+  [32m+[0m Regex phone number validation for Sierra Leone
+  [32m+[0m Regex phone number validation for San Marino
+  [32m+[0m Regex phone number validation for Senegal
+  [32m+[0m Regex phone number validation for Suriname
+  [32m+[0m Regex phone number validation for South Sudan
+  [32m+[0m Regex phone number validation for Somalia
+  [32m+[0m Regex phone number validation for Sao Tome and Principe
+  [32m+[0m Regex phone number validation for El Salvador
+  [32m+[0m Regex phone number validation for Saint Marten
+  [32m+[0m Regex phone number validation for Syria
+  [32m+[0m Regex phone number validation for Swaziland
+  [32m+[0m Regex phone number validation for Tristan da Cunha
+  [32m+[0m Regex phone number validation for Chad
+  [32m+[0m Regex phone number validation for Turks and Caicos Islands
+  [32m+[0m Regex phone number validation for French Southern Territories
+  [32m+[0m Regex phone number validation for Togo
+  [32m+[0m Regex phone number validation for Tajikistan
+  [32m+[0m Regex phone number validation for Thailand
+  [32m+[0m Regex phone number validation for Tokelau
+  [32m+[0m Regex phone number validation for Tunisia
+  [32m+[0m Regex phone number validation for Turkmenistan
+  [32m+[0m Regex phone number validation for Timor-Leste
+  [32m+[0m Regex phone number validation for Trinidad and Tobago
+  [32m+[0m Regex phone number validation for Turkey
+  [32m+[0m Regex phone number validation for Tuvalu
+  [32m+[0m Regex phone number validation for Tonga
+  [32m+[0m Regex phone number validation for Taiwan
+  [32m+[0m Regex phone number validation for Tanzania
+  [32m+[0m Regex phone number validation for Ukraine
+  [32m+[0m Regex phone number validation for Uruguay
+  [32m+[0m Regex phone number validation for US Minor Outlying Islands
+  [32m+[0m Regex phone number validation for United States of America
+  [32m+[0m Regex phone number validation for Uganda
+  [32m+[0m Regex phone number validation for Saint Vincent and Grenadines
+  [32m+[0m Regex phone number validation for Uzbekistan
+  [32m+[0m Regex phone number validation for British Virgin Islands
+  [32m+[0m Regex phone number validation for Venezuela
+  [32m+[0m Regex phone number validation for Holy See (Vatican City State)
+  [32m+[0m Regex phone number validation for Virgin Islands, US
+  [32m+[0m Regex phone number validation for Wallis and Futuna Islands
+  [32m+[0m Regex phone number validation for Samoa
+  [32m+[0m Regex phone number validation for Vanuatu
+  [32m+[0m Regex phone number validation for Viet Nam
+  [32m+[0m Regex phone number validation for Kosovo
+  [32m+[0m Regex phone number validation for Mayotte
+  [32m+[0m Regex phone number validation for South Africa
+  [32m+[0m Regex phone number validation for Yemen
+  [32m+[0m Regex phone number validation for Zambia
+  [32m+[0m Regex phone number validation for Zimbabwe
+306 tests passed. 0 tests failed. 0 tests ignored.
+
+Executed in 7 s 856 ms
+
+[info] compiling 6 Scala sources to /workspaces/zio-schema/zio-schema-derivation/jvm/target/scala-2.13/test-classes ...
+[info] Linking (multithreadingEnabled=true, disable if not used) (18070 ms)
 [info] Discovered 7197 classes and 41865 methods after classloading
-[info] Checking intermediate code (quick) (2791 ms)
-[info] compiling 3 Scala sources to /workspaces/zio-schema/zio-schema-protobuf/native/target/scala-2.13/classes ...
-[info] done compiling
-[info] compiling 1 Scala source to /workspaces/zio-schema/zio-schema-optics/native/target/scala-2.13/classes ...
-[info] Discovered 7116 classes and 32417 methods after optimization
-[info] Optimizing (debug mode) (24826 ms)
-[info] done compiling
-[info] compiling 2 Scala sources to /workspaces/zio-schema/zio-schema-json/native/target/scala-2.13/classes ...
-[info] done compiling
-[info] compiling 6 Scala sources to /workspaces/zio-schema/zio-schema-derivation/native/target/scala-2.13/test-classes ...
