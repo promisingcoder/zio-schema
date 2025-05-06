@@ -31,9 +31,9 @@ import zio.{ Cause, Chunk, ZIO }
 
 // fs2-data imports
 import _root_.fs2.Stream
-import _root_.fs2.data.xml.{ events => Fs2XmlEvents }
+import _root_.fs2.data.xml // To access members like events()
 import _root_.fs2.data.xml.scala.{ eventsToDom => fs2EventsToDom }
-import _root_.fs2.data.text
+import _root_.fs2.data.text // To access members like string.chars
 import _root_.cats.effect.IO // fs2-data pipes often require an effect type like IO
 import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
 
@@ -70,9 +70,9 @@ object XmlCodec {
       private def parseXmlStringToScalaXml(xmlString: String): Either[Throwable, scala.xml.Node] =
         try {
           Stream.emit(xmlString)
-            .through(text.string.chars[IO])      // Stream[IO, Char]
-            .through(Fs2XmlEvents())             // Pipe[IO, Char, XmlEvent]
-            .through(fs2EventsToDom)             // Pipe[IO, XmlEvent, scala.xml.Node]
+            .through(_root_.fs2.data.text.string.chars[IO])      // Stream[IO, Char]
+            .through(_root_.fs2.data.xml.events[IO]())           // Pipe[IO, Char, XmlEvent]
+            .through(fs2EventsToDom[IO])                         // Pipe[IO, XmlEvent, scala.xml.Node]
             .compile
             .toList                              // IO[List[scala.xml.Node]]
             .map(_.headOption)                   // IO[Option[scala.xml.Node]]
@@ -238,25 +238,27 @@ object XmlCodec {
     val childElements        = scala.collection.mutable.ListBuffer[Node]()
 
     fields.foreach { field =>
-      val rawFieldValue = field.get(value.asInstanceOf[field.Parent]) // Get field value using schema
+      val rawFieldValue = field.get(value) // Get field value using schema; Corrected: no .asInstanceOf[field.Parent]
 
       var isAttributeCandidate = false
       var attributeStringValue: Option[String] = None
 
       if (config.useAttributes) {
         field.schema match {
-          case prim: Schema.Primitive[_] =>
+          case prim: Schema.Primitive[ptype] => // Capture primitive's type
             isAttributeCandidate = true
-            // Ensure rawFieldValue is not null before converting to string,
-            // though primitives from `field.get` should generally not be null unless schema is bad.
             if (rawFieldValue != null) {
-              attributeStringValue = Some(prim.standardType.asInstanceOf[StandardType[Any]].format(rawFieldValue))
+              // rawFieldValue should be of type ptype.
+              // prim.standardType is StandardType[ptype].
+              attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
             }
-          case Schema.Optional(prim: Schema.Primitive[_], _) =>
+          case Schema.Optional(prim: Schema.Primitive[optype], _) => // Capture optional primitive's type
             isAttributeCandidate = true
-            rawFieldValue.asInstanceOf[Option[Any]].foreach { innerValue =>
-              // innerValue might be null if it's Option[JavaNullType] or similar, format handles it.
-               attributeStringValue = Some(prim.standardType.asInstanceOf[StandardType[Any]].format(innerValue))
+            // rawFieldValue is Option[optype]
+            rawFieldValue.asInstanceOf[Option[optype]].foreach { innerValue =>
+              // innerValue is optype. prim.standardType is StandardType[optype].
+              // format expects optype, not Any.
+              attributeStringValue = Some(prim.standardType.format(innerValue))
             }
           case _ => // Not a primitive or Option[Primitive], so not an attribute
         }
