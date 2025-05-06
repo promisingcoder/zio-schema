@@ -29,11 +29,11 @@ import zio.schema._
 import zio.stream.ZPipeline
 import zio.{ Cause, Chunk, ZIO }
 
-// fs2-data imports - direct imports for pipe functions
+// fs2-data imports (reverted to package objects)
 import _root_.fs2.Stream
-import _root_.fs2.data.xml.events.{events => xmlEventsPipe} // Specific pipe
-import _root_.fs2.data.xml.scala.eventsToDom.{eventsToDom => scalaXmlDomPipe} // Specific pipe
-import _root_.fs2.data.text.string.{chars => stringCharsPipe} // Specific pipe
+import _root_.fs2.data.xml // To access members like events()
+import _root_.fs2.data.xml.scala // To access members like eventsToDom
+import _root_.fs2.data.text // To access members like string.chars
 import _root_.cats.effect.IO // fs2-data pipes often require an effect type like IO
 import _root_.cats.effect.unsafe.implicits.global // For unsafeRunSync, be cautious
 
@@ -65,22 +65,25 @@ object XmlCodec {
 
   def xmlCodec[A](config: Configuration)(implicit schema: Schema[A]): BinaryCodec[A] =
     new BinaryCodec[A] {
-      // Helper function to parse XML string to scala.xml.Node using fs2-data
-      // This is made synchronous for the decode method using unsafeRunSync.
+      // Helper function - TEMPORARILY DISABLED FOR TESTING
       private def parseXmlStringToScalaXml(xmlString: String): Either[Throwable, scala.xml.Node] =
-        try {
-          Stream.emit(xmlString)
-            .through(stringCharsPipe[IO])      // Stream[IO, Char]
-            .through(xmlEventsPipe[IO]())      // Pipe[IO, Char, XmlEvent]
-            .through(scalaXmlDomPipe[IO])      // Pipe[IO, XmlEvent, scala.xml.Node]
-            .compile
-            .toList                              // IO[List[scala.xml.Node]]
-            .map(_.headOption)                   // IO[Option[scala.xml.Node]]
-            .unsafeRunSync()                     // Option[scala.xml.Node] - This blocks
-            .toRight(new RuntimeException("XML parsing failed to produce a root node or XML was empty."))
-        } catch {
-          case NonFatal(e) => Left(e)
-        }
+         Left(new UnsupportedOperationException(s"XML parsing disabled for testing: $xmlString"))
+         /* // Original fs2-data code:
+         try {
+           Stream.emit(xmlString)
+             // Use fully qualified names directly
+             .through(_root_.fs2.data.text.string.chars[IO])
+             .through(_root_.fs2.data.xml.events[IO]())
+             .through(_root_.fs2.data.xml.scala.eventsToDom[IO]) // Assuming eventsToDom is in package object
+             .compile
+             .toList                              // IO[List[scala.xml.Node]]
+             .map(_.headOption)                   // IO[Option[scala.xml.Node]]
+             .unsafeRunSync()                     // Option[scala.xml.Node] - This blocks
+             .toRight(new RuntimeException("XML parsing failed to produce a root node or XML was empty."))
+         } catch {
+           case NonFatal(e) => Left(e)
+         }
+         */
         
       override def decode(whole: Chunk[Byte]): Either[DecodeError, A] =
         try {
@@ -237,9 +240,9 @@ object XmlCodec {
     var attributes: MetaData = Null
     val childElements        = scala.collection.mutable.ListBuffer[Node]()
 
-    fields.foreach { field =>
+    fields.foreach { (field: Field[A @unchecked, _]) => // Added @unchecked
       // value is of type A. field is Field[A, SpecificFieldType]. field.get expects A.
-      val rawFieldValue: Any = field.get(value) // Get field value using schema.
+      val rawFieldValue = field.get(value) // Get field value using schema. Removed : Any annotation
 
       var isAttributeCandidate = false
       var attributeStringValue: Option[String] = None
@@ -249,17 +252,15 @@ object XmlCodec {
           case prim: Schema.Primitive[ptype] =>
             isAttributeCandidate = true
             if (rawFieldValue != null) {
-              val typedValue: ptype = rawFieldValue.asInstanceOf[ptype]
-              val stdType: StandardType[ptype] = prim.standardType
-              attributeStringValue = Some(stdType.format(typedValue))
+              // Direct call with cast
+              attributeStringValue = Some(prim.standardType.format(rawFieldValue.asInstanceOf[ptype]))
             }
           case Schema.Optional(prim: Schema.Primitive[optype], _) =>
             isAttributeCandidate = true
             // rawFieldValue is Option[optype]
-            val typedOptionalValue: Option[optype] = rawFieldValue.asInstanceOf[Option[optype]]
-            typedOptionalValue.foreach { innerValue => // innerValue is optype
-              val stdType: StandardType[optype] = prim.standardType
-              attributeStringValue = Some(stdType.format(innerValue))
+            rawFieldValue.asInstanceOf[Option[optype]].foreach { innerValue => // innerValue is optype
+              // Direct call, no extra cast needed for innerValue
+              attributeStringValue = Some(prim.standardType.format(innerValue))
             }
           case _ => // Not a primitive or Option[Primitive], so not an attribute
         }
